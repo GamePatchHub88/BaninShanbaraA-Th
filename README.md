@@ -12,26 +12,37 @@ institute/
 
 ## التشغيل خطوة بخطوة
 
-### 1) تشغيل الخادم (Backend)
+### 1) إعداد قاعدة بيانات MongoDB (مرة واحدة فقط)
+1. أنشئ حسابًا مجانيًا على https://www.mongodb.com/cloud/atlas
+2. أنشئ Cluster مجاني (Free Shared Cluster).
+3. من **Database Access** أنشئ مستخدمًا وكلمة مرور لقاعدة البيانات.
+4. من **Network Access** اسمح بالوصول من أي مكان (Allow Access from Anywhere) حتى يعمل من الاستضافة.
+5. من **Connect > Drivers** انسخ رابط الاتصال (Connection String)، شكله:
+   ```
+   mongodb+srv://<username>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
+   ```
+6. استبدل `<username>` و`<password>` ببيانات المستخدم الذي أنشأته.
+
+### 2) تشغيل الخادم (Backend)
 ```
 cd backend
 npm install
+```
+انسخ `.env.example` باسم `.env` واملأ القيم، أهمها `MONGODB_URI` برابط الاتصال من الخطوة السابقة:
+```
+cp .env.example .env
+```
+ثم شغّل الخادم:
+```
 npm run dev
 ```
-يعمل الخادم على: http://localhost:4000
+يعمل الخادم على: http://localhost:4000 — وستُنشأ قاعدة البيانات والمجموعة (collection) تلقائيًا في MongoDB عند أول رسالة تُرسل.
 
-بيانات دخول المدير الافتراضية (غيّرها فورًا):
+بيانات دخول المدير الافتراضية (غيّرها في `.env`):
 - اسم المستخدم: `admin`
 - كلمة المرور: `ChangeThisPassword123`
 
-لتغييرها، أنشئ ملف `.env` داخل `backend` أو عدّل المتغيرات مباشرة:
-```
-ADMIN_USERNAME=اسمك
-ADMIN_PASSWORD=كلمة_مرور_قوية
-JWT_SECRET=نص_عشوائي_طويل
-```
-
-### 2) تشغيل الواجهة (Frontend)
+### 3) تشغيل الواجهة (Frontend)
 في نافذة طرفية أخرى:
 ```
 cd frontend
@@ -62,7 +73,7 @@ frontend/public/assets/
 ## آلية الرسائل
 
 - أي زائر يرسل رسالة من قسم "تواصل معنا" في الموقع.
-- تُخزَّن الرسائل في `backend/data/messages.json`.
+- تُخزَّن الرسائل في قاعدة بيانات MongoDB (مجموعة باسم `messages`)، وتبقى محفوظة بشكل دائم حتى لو أُعيد تشغيل الخادم.
 - شاشة المدير تتحقق من الرسائل الجديدة تلقائيًا كل 8 ثوانٍ (بدون الحاجة لتحديث الصفحة).
 
 ## النشر (Deployment)
@@ -84,10 +95,12 @@ git push -u origin main
 يوجد ملف `render.yaml` جاهز في جذر المشروع (Blueprint):
 1. ادخل إلى render.com وسجّل دخولك بحساب GitHub.
 2. اختر **New > Blueprint** وحدد مستودعك — سيقرأ Render ملف `render.yaml` تلقائيًا.
-3. عند الطلب، أدخل قيم `ADMIN_USERNAME` و`ADMIN_PASSWORD` (كلمة مرور قوية من عندك). أما `JWT_SECRET` فسيُنشأ تلقائيًا.
+3. عند الطلب، أدخل قيم `ADMIN_USERNAME` و`ADMIN_PASSWORD` (كلمة مرور قوية من عندك) و`MONGODB_URI` (رابط اتصال Atlas من الخطوة 1). أما `JWT_SECRET` فسيُنشأ تلقائيًا.
 4. بعد اكتمال النشر ستحصل على رابط مثل: `https://shanbara-institute-backend.onrender.com`.
 
-(بديل يدوي بدون Blueprint: أنشئ Web Service جديد يدويًا، Root Directory = `backend`، Build Command = `npm install && npm run build`، Start Command = `npm start`.)
+بما أن الرسائل تُحفظ في MongoDB وليس في ملف على القرص، فهي **آمنة ودائمة** حتى مع إعادة تشغيل الخادم على الخطة المجانية في Render.
+
+(بديل يدوي بدون Blueprint: أنشئ Web Service جديد يدويًا، Root Directory = `backend`، Build Command = `npm install && npm run build`، Start Command = `npm start`، ولا تنسَ إضافة نفس متغيرات البيئة يدويًا.)
 
 ### 3) نشر الواجهة (frontend) على Vercel
 1. ادخل إلى vercel.com وسجّل دخولك بحساب GitHub، ثم **Add New Project** واختر المستودع.
