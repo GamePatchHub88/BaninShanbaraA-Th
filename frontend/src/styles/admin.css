@@ -1,0 +1,237 @@
+/* ---------- Admin login ---------- */
+.admin-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-green-deep);
+  padding: 20px;
+}
+
+.admin-login__card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: 34px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.admin-login__card h1 {
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+.admin-login__sub {
+  text-align: center;
+  color: var(--color-ink-soft);
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+}
+
+.admin-login__card label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--color-ink-soft);
+}
+
+.admin-login__card input {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-family: var(--font-body);
+}
+
+.admin-login__card button {
+  margin-top: 6px;
+  padding: 12px;
+  background: var(--color-green);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+}
+
+.admin-login__card button:hover {
+  background: var(--color-green-deep);
+}
+
+.admin-login__error {
+  color: var(--color-danger);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.admin-login__back {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  text-decoration: none;
+}
+
+/* ---------- Admin dashboard ---------- */
+.admin-dash {
+  min-height: 100vh;
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-dash__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 28px;
+  background: var(--color-green-deep);
+  color: #fff;
+}
+
+.admin-dash__header h1 {
+  color: #fff;
+  font-size: 1.15rem;
+}
+
+.admin-dash__header p {
+  font-size: 0.8rem;
+  opacity: 0.75;
+  margin-top: 2px;
+}
+
+.admin-dash__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-dash__unread {
+  font-size: 0.85rem;
+  color: var(--color-brass-soft);
+}
+
+.admin-dash__header-actions button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+}
+
+.admin-dash__header-actions button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.admin-dash__error {
+  color: var(--color-danger);
+  padding: 10px 28px 0;
+  font-size: 0.85rem;
+}
+
+.admin-dash__body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  min-height: 0;
+}
+
+@media (max-width: 760px) {
+  .admin-dash__body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin-dash__list {
+  border-inline-end: 1px solid var(--color-line);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-dash__item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: right;
+  padding: 14px 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.admin-dash__item:hover {
+  background: var(--color-surface);
+}
+
+.admin-dash__item--active {
+  background: #fff;
+  border-inline-start: 3px solid var(--color-brass);
+}
+
+.admin-dash__item--unread .admin-dash__item-name::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-brass);
+  margin-inline-end: 6px;
+}
+
+.admin-dash__item-name {
+  font-weight: 600;
+}
+
+.admin-dash__item-subject {
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+}
+
+.admin-dash__item-date {
+  font-size: 0.72rem;
+  color: var(--color-ink-soft);
+  opacity: 0.7;
+}
+
+.admin-dash__detail {
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.admin-dash__empty {
+  color: var(--color-ink-soft);
+  text-align: center;
+  margin-top: 40px;
+}
+
+.admin-dash__detail-card {
+  max-width: 640px;
+}
+
+.admin-dash__detail-meta {
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  margin-top: 4px;
+}
+
+.admin-dash__detail-body {
+  margin-top: 20px;
+  line-height: 1.9;
+  white-space: pre-wrap;
+}
+
+.admin-dash__delete {
+  margin-top: 26px;
+  padding: 9px 18px;
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
+  background: transparent;
+  border-radius: var(--radius-sm);
+}
+
+.admin-dash__delete:hover {
+  background: var(--color-danger);
+  color: #fff;
+}
