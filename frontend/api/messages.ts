@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { nanoid } from "nanoid";
 import { getMessagesCollection } from "../lib/server/mongo";
+import { parseBody } from "../lib/server/request";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
@@ -8,7 +9,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: "طريقة غير مسموحة" });
   }
 
-  const { name, phone, subject, body } = req.body ?? {};
+  const { name, phone, subject, body } = parseBody<{
+    name?: string;
+    phone?: string;
+    subject?: string;
+    body?: string;
+  }>(req);
   if (!name || !body) {
     return res.status(400).json({ error: "الاسم ونص الرسالة مطلوبان" });
   }
